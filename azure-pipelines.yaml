@@ -155,12 +155,15 @@ stages:
                       # ToDo: Install Selenium, Chromium-browser & Chromedriver, if not already in the custom VM image. 
                       #! /bin/bash
 
+                      sudo apt-get update
                       sudo apt-get upgrade -y
-                      sudo apt-get install python3-pip -y
-                      sudo apt-get install unzip -y
+                      sudo apt-get install python3-pip unzip expect -y
                       sudo apt-get install -y chromium-browser
-                      sudo apt-get install -y chromium-chromedriver
-                      pip install selenium
+                      pip3 install selenium
+                      sudo rm -rf chromedriver*
+                      wget https://chromedriver.storage.googleapis.com/90.0.4430.24/chromedriver_linux64.zip 
+                      unzip chromedriver*.zip
+                      sudo mv chromedriver -f /usr/bin
 
                       #  ToDo: Add chromedriver executable to path
                       export PATH=$PATH:/usr/lib/chromium-browser/ 
@@ -170,17 +173,17 @@ stages:
 
                       # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
                       # ToDo: Direct the output of the Selenium Test Suite to a log file
-                - task: Bash@3
-                  displayName: Run Selenium UI test
-                  inputs:
-                    targetType: "inline"
-                    script: |
-                      sudo python3 /home/azureuser/azagent/_work/1/drop-uitests/login.py | tee -a /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log
-                      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
-                      ls -al
-                - task: PublishPipelineArtifact@1
-                  displayName: Selenium Logs
-                  inputs:
-                    targetPath: "$(System.DefaultWorkingDirectory)/logs/selenium/selenium-test-suite.log"
-                    artifact: drop-selenium-logs
-                    publishLocation: "pipeline"
+                #- task: Bash@3
+                #  displayName: Run Selenium UI test
+                #  inputs:
+                #    targetType: "inline"
+                #    script: |
+                #      sudo python3 /home/azureuser/azagent/_work/1/drop-uitests/login.py | tee -a /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log
+                #      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
+                #      ls -al
+                #- task: PublishPipelineArtifact@1
+                #  displayName: Selenium Logs
+                #  inputs:
+                #    targetPath: "$(System.DefaultWorkingDirectory)/logs/selenium/selenium-test-suite.log"
+                #    artifact: drop-selenium-logs
+                #    publishLocation: "pipeline"
