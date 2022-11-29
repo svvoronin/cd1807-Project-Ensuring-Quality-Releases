@@ -169,7 +169,7 @@ stages:
                       export PATH=$PATH:/usr/lib/chromium-browser/ 
                       # cd $(Pipeline.Workspace)/drop-uitests
                       unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .    
-                      sudo mkdir -p $(Pipeline.Workspace)/drop-uitests/logs/selenium
+                      sudo mkdir -p ./log/selenium
                       ls
                       # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
                       # ToDo: Direct the output of the Selenium Test Suite to a log file
@@ -178,7 +178,7 @@ stages:
                   inputs:
                     targetType: "inline"
                     script: |
-                      sudo python3 ./login.py | tee -a $(Pipeline.Workspace)/drop-uitests/logs/selenium/selenium-test-suite.log
+                      sudo python3 ./login.py 2>&1 | tee -a ./log/selenium/selenium-test-suite.log
                 #      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
                 #      ls -al
                 #- task: PublishPipelineArtifact@1
