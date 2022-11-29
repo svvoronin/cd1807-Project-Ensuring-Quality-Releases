@@ -180,7 +180,8 @@ stages:
                     script: |
                       sudo python3 ./login.py > selenium-test-suite.log
                       cat selenium-test-suite.log
-                      sudo mv selenium-test-suite.log /log/selenium
+                      ls -al
+                      sudo mv selenium-test-suite.log /log
                 #| tee -a ./log/selenium/selenium-test-suite.log
                 #      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
                 #      ls -al
