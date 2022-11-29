@@ -167,18 +167,18 @@ stages:
 
                       #  ToDo: Add chromedriver executable to path
                       export PATH=$PATH:/usr/lib/chromium-browser/ 
-                      cd $(Pipeline.Workspace)/drop-uitests
+                      # cd $(Pipeline.Workspace)/drop-uitests
                       unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .    
-                      sudo mkdir --parents ./logs/selenium
+                      sudo mkdir -p $(Pipeline.Workspace)/drop-uitests/logs/selenium
 
                       # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
                       # ToDo: Direct the output of the Selenium Test Suite to a log file
-                #- task: Bash@3
-                #  displayName: Run Selenium UI test
-                #  inputs:
-                #    targetType: "inline"
-                #    script: |
-                #      sudo python3 /home/azureuser/azagent/_work/1/drop-uitests/login.py | tee -a /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log
+                - task: Bash@3
+                  displayName: Run Selenium UI test
+                  inputs:
+                    targetType: "inline"
+                    script: |
+                      sudo python3 ./login.py | tee -a $(Pipeline.Workspace)/drop-uitests/logs/selenium/selenium-test-suite.log
                 #      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
                 #      ls -al
                 #- task: PublishPipelineArtifact@1
