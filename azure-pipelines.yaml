@@ -178,7 +178,8 @@ stages:
                   inputs:
                     targetType: "inline"
                     script: |
-                      sudo python3 ./login.py 2>&1 | tee -a ./log/selenium/selenium-test-suite.log
+                      sudo python3 ./login.py
+                #| tee -a ./log/selenium/selenium-test-suite.log
                 #      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
                 #      ls -al
                 #- task: PublishPipelineArtifact@1
