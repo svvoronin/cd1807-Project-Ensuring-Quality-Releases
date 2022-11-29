@@ -192,6 +192,6 @@ stages:
                   displayName: Selenium Logs
                   inputs:
                     #targetPath: "$(System.DefaultWorkingDirectory)/log/selenium-test-suite.log"
-                    targetPath: "/selenium-test-suite.log"
+                    targetPath: "./selenium-test-suite.log"
                     artifact: drop-selenium-logs
                     publishLocation: "pipeline"
