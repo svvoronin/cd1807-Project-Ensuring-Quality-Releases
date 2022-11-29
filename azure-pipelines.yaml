@@ -170,7 +170,7 @@ stages:
                       # cd $(Pipeline.Workspace)/drop-uitests
                       unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .    
                       sudo mkdir -p $(Pipeline.Workspace)/drop-uitests/logs/selenium
-
+                      ls
                       # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
                       # ToDo: Direct the output of the Selenium Test Suite to a log file
                 - task: Bash@3
