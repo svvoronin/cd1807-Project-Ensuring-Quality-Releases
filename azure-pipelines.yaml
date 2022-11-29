@@ -185,9 +185,9 @@ stages:
                 #| tee -a ./log/selenium/selenium-test-suite.log
                 #      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
                 #      ls -al
-                #- task: PublishPipelineArtifact@1
-                #  displayName: Selenium Logs
-                #  inputs:
-                #    targetPath: "$(System.DefaultWorkingDirectory)/logs/selenium/selenium-test-suite.log"
-                #    artifact: drop-selenium-logs
-                #    publishLocation: "pipeline"
+                - task: PublishPipelineArtifact@1
+                  displayName: Selenium Logs
+                  inputs:
+                    targetPath: "$(System.DefaultWorkingDirectory)/log/selenium-test-suite.log"
+                    artifact: drop-selenium-logs
+                    publishLocation: "pipeline"
