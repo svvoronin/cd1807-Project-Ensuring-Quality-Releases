@@ -93,7 +93,7 @@ stages:
             displayName: Run Data Validation Tests
             continueOnError: true
             inputs:
-              script: newman run Data_Validation.postman_collection.json -e Udacity3.postman_environment.json --delay-request 5000 -r cli,junitfull --reporter-junitfull-export TEST-validation.xml # ToDo: Write your commands
+              script: newman run Data_Validation.postman_collection.json -e Udacity3.postman_environment.json -r cli,junitfull --reporter-junitfull-export TEST-validation.xml # ToDo: Write your commands
               workingDirectory: "$(System.DefaultWorkingDirectory)/automatedtesting/postman"
           # Postman Regression Test Suite
           # ToDo: Update the command and verify the working directory
@@ -101,7 +101,7 @@ stages:
             displayName: Run Regression Tests
             continueOnError: true
             inputs:
-              script: newman run Regression.postman_collection.json -e Udacity3.postman_environment.json --delay-request 5000 -r cli,junitfull --reporter-junitfull-export TEST-regression.xml # ToDo: Write your commands
+              script: newman run Regression.postman_collection.json -e Udacity3.postman_environment.json -r cli,junitfull --reporter-junitfull-export TEST-regression.xml # ToDo: Write your commands
               workingDirectory: "$(System.DefaultWorkingDirectory)/automatedtesting/postman"
           # Postman - Publish Results
           # ToDo: Complete the task as explained here: https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/test/publish-test-results?view=azure-devops&tabs=trx%2Cyaml#yaml-snippet
@@ -146,7 +146,7 @@ stages:
             deploy:
               steps:
                 - download: current
-                  # artifact: drop-ui-tests # ToDo: Change/provide a name
+                  artifact: drop-ui-tests # ToDo: Change/provide a name
 
                 - task: Bash@3
                   inputs:
@@ -159,10 +159,14 @@ stages:
                       sudo apt-get install python3-pip -y
                       sudo apt-get install unzip -y
                       sudo apt-get install -y chromium-browser
-                      pip3 install selenium
+                      sudo apt-get install -y chromium-chromedriver
+                      pip install selenium
 
                       #  ToDo: Add chromedriver executable to path
-                      export PATH=$PATH:/usr/lib/chromium-browser/      
+                      export PATH=$PATH:/usr/lib/chromium-browser/ 
+                      cd $(Pipeline.Workspace)/drop-uitests
+                      unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .    
+                      sudo mkdir --parents ./var/logs/selenium
 
                       # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
                       # ToDo: Direct the output of the Selenium Test Suite to a log file
@@ -171,10 +175,8 @@ stages:
                   inputs:
                     targetType: "inline"
                     script: |
-                      unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .
-                      sudo mkdir --parents ./var/logs/selenium
-                      python3 ./login.py | tee --append ./var/logs/selenium/selenium-test-suite.log
-                      sudo cp ./var/logs/selenium/selenium-test-suite.log logs/selenium/selenium-test-suite.log
+                      sudo python3 /home/azureuser/azagent/_work/1/drop-uitests/login.py | tee -a /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log
+                      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
                       ls -al
                 - task: PublishPipelineArtifact@1
                   displayName: Selenium Logs
