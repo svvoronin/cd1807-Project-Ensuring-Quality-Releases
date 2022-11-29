@@ -146,7 +146,7 @@ stages:
             deploy:
               steps:
                 - download: current
-                  artifact: drop-ui-tests # ToDo: Change/provide a name
+                  #artifact: drop-ui-tests # ToDo: Change/provide a name
 
                 - task: Bash@3
                   inputs:
@@ -166,7 +166,7 @@ stages:
                       export PATH=$PATH:/usr/lib/chromium-browser/ 
                       cd $(Pipeline.Workspace)/drop-uitests
                       unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .    
-                      sudo mkdir --parents ./var/logs/selenium
+                      sudo mkdir --parents ./logs/selenium
 
                       # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
                       # ToDo: Direct the output of the Selenium Test Suite to a log file
