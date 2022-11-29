@@ -181,13 +181,15 @@ stages:
                       sudo python3 ./login.py > selenium-test-suite.log
                       cat selenium-test-suite.log
                       ls -al
-                      sudo mv selenium-test-suite.log /log
+                      pwd
+                      sudo mv selenium-test-suite.log ./log/selenium
                 #| tee -a ./log/selenium/selenium-test-suite.log
                 #      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
                 #      ls -al
                 - task: PublishPipelineArtifact@1
                   displayName: Selenium Logs
                   inputs:
-                    targetPath: "$(System.DefaultWorkingDirectory)/log/selenium-test-suite.log"
+                    #targetPath: "$(System.DefaultWorkingDirectory)/log/selenium-test-suite.log"
+                    targetPath: "./log/selenuim/selenium-test-suite.log"
                     artifact: drop-selenium-logs
                     publishLocation: "pipeline"
