@@ -170,7 +170,7 @@ stages:
                       # cd $(Pipeline.Workspace)/drop-uitests
                       unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .    
                       #sudo mkdir -p ./log/selenium
-                      sudo mkdir -p ./selenium-logs
+                      #sudo mkdir -p ./selenium-logs
                       ls
                       # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
                       # ToDo: Direct the output of the Selenium Test Suite to a log file
@@ -183,7 +183,7 @@ stages:
                       cat selenium-test-suite.log
                       ls -al
                       pwd
-                      sudo mv selenium-test-suite.log ./selenium-logs
+                      #sudo mv selenium-test-suite.log ./selenium-logs
                       ls -al
                 #| tee -a ./log/selenium/selenium-test-suite.log
                 #      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
@@ -192,6 +192,6 @@ stages:
                   displayName: Selenium Logs
                   inputs:
                     #targetPath: "$(System.DefaultWorkingDirectory)/log/selenium-test-suite.log"
-                    targetPath: "./selenium-logs/selenium-test-suite.log"
+                    targetPath: "./selenium-test-suite.log"
                     artifact: drop-selenium-logs
                     publishLocation: "pipeline"
