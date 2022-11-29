@@ -182,7 +182,7 @@ stages:
                       cat selenium-test-suite.log
                       ls -al
                       pwd
-                      sudo mv selenium-test-suite.log ./log/selenium
+                # sudo mv selenium-test-suite.log ./log/selenium
                 #| tee -a ./log/selenium/selenium-test-suite.log
                 #      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
                 #      ls -al
@@ -190,6 +190,6 @@ stages:
                   displayName: Selenium Logs
                   inputs:
                     #targetPath: "$(System.DefaultWorkingDirectory)/log/selenium-test-suite.log"
-                    targetPath: "./log/selenuim/selenium-test-suite.log"
+                    targetPath: "./selenium-test-suite.log"
                     artifact: drop-selenium-logs
                     publishLocation: "pipeline"
