@@ -20,6 +20,9 @@ variables:
   environmentName: "test_env"
 
 stages:
+  #--------------------------------------------#
+  # BUILD STAGE
+  #--------------------------------------------#
   - stage: Build
     jobs:
       - job: BuildInfrastructure
@@ -109,3 +112,73 @@ stages:
               #searchFolder:       # ToDo
               mergeTestResults: true
               testRunTitle: "Return postman tests" # ToDo
+          #--------------------------------------------#
+          # Selenium (UI) Test Suite - Archive the package
+          # "ArchiveFiles@2" picks up the web package and archives it.
+          - task: ArchiveFiles@2
+            displayName: "Archive UI Tests"
+            inputs:
+              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/automatedtesting/selenium"
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip"
+          # Selenium Test Suite - Publish the package
+          - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip # Same as the archiveFile artifact above.
+            displayName: "Upload Package"
+            artifact: drop-uitests
+
+  #--------------------------------------------#
+  # DEPLOYMENT STAGE
+  #--------------------------------------------#
+  - stage: Deploy
+    jobs:
+      #--------------------------------------------#
+      # Selenium | Functional UI Tests
+      # ToDo:
+      - deployment: VMDeploy
+        displayName: Selenium Tests
+        environment:
+          name: "TEST" # ToDo: Change/provide a name
+          resourceType: VirtualMachine
+          tags: selenium
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop-ui-tests # ToDo: Change/provide a name
+
+                - task: Bash@3
+                  inputs:
+                    targetType: "inline"
+                    script: |
+                      # ToDo: Install Selenium, Chromium-browser & Chromedriver, if not already in the custom VM image. 
+                      #! /bin/bash
+
+                      sudo apt-get upgrade -y
+                      sudo apt-get install python3-pip -y
+                      sudo apt-get install unzip -y
+                      sudo apt-get install -y chromium-browser
+                      pip3 install selenium
+
+                      #  ToDo: Add chromedriver executable to path
+                      export PATH=$PATH:/usr/lib/chromium-browser/      
+
+                      # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
+                      # ToDo: Direct the output of the Selenium Test Suite to a log file
+                - task: Bash@3
+                  displayName: Run Selenium UI test
+                  inputs:
+                    targetType: "inline"
+                    script: |
+                      unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .
+                      sudo mkdir --parents ./var/logs/selenium
+                      python3 ./login.py | tee --append ./var/logs/selenium/selenium-test-suite.log
+                      sudo cp ./var/logs/selenium/selenium-test-suite.log logs/selenium/selenium-test-suite.log
+                      ls -al
+                - task: PublishPipelineArtifact@1
+                  displayName: Selenium Logs
+                  inputs:
+                    targetPath: "$(System.DefaultWorkingDirectory)/logs/selenium/selenium-test-suite.log"
+                    artifact: drop-selenium-logs
+                    publishLocation: "pipeline"
