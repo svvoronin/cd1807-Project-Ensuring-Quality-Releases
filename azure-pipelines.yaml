@@ -179,7 +179,7 @@ stages:
                     azureSubscription: fakewebappconnection # ToDo
                     appName: myFakeWebapp # ToDo
                     appType: webApp
-                    package: $(Pipeline.Workspace)/drop-frapi/frapi-$(Build.BuildId).zip # ToDo: Use the published zip artifact.
+                    package: $(Pipeline.Workspace)/drop-frapi/$(Build.BuildId)-frapi.zip # ToDo: Use the published zip artifact.
                 #--------------------------------------------#
                 # Run JMeter test suite against the App Service
                 # ToDo: Update the script below to install jmeter, unzip the jmeter test suite published zip artifact, and run the PerformanceTestSuite.
