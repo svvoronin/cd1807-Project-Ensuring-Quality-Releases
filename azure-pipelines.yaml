@@ -127,11 +127,68 @@ stages:
             displayName: "Upload Package"
             artifact: drop-uitests
 
+            #--------------------------------------------#
+          # FakeRestAPI - Archive
+          # ToDo: Complete the ArchiveFiles@2 task and publish step
+          - task: ArchiveFiles@2
+            displayName: "Archive FakeRestAPI"
+            inputs:
+              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/fakerestapi"
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-frapi.zip"
+          # FakeRestAPI - Publish
+          - publish: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-frapi.zip"
+            displayName: "Publish FakeRestAPI"
+            artifact: drop-frapi
+
+          #--------------------------------------------#
+          # JMeter (Performance) Test Suite - Archive
+          # ToDo: Complete the ArchiveFiles@2 task and publish step
+          - task: ArchiveFiles@2
+            displayName: "Archive PerformanceTestSuite"
+            inputs:
+              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/automatedtesting/jmeter"
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-performancetest.zip"
+          # JMeter Test Suite - Publish
+          - publish: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-performancetest.zip"
+            displayName: "Publish JMeter Test Suite"
+            artifact: drop-performance
+
   #--------------------------------------------#
   # DEPLOYMENT STAGE
   #--------------------------------------------#
   - stage: Deploy
     jobs:
+      #--------------------------------------------#
+      # Deploy FakeRestAPI Web App
+      # ToDo: Provide <environment name> you created in your DevOps project
+      - deployment: FakeRestAPI
+        pool:
+          vmImage: "Ubuntu-18.04"
+        environment: udacity3 # ToDo
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureWebApp@1
+                  displayName: "Deploy Azure Web App"
+                  inputs:
+                    azureSubscription: fakewebappconnection # ToDo
+                    appName: myFakeWebapp # ToDo
+                    appType: webApp
+                    package: $(Pipeline.Workspace)/drop-frapi/frapi-$(Build.BuildId).zip # ToDo: Use the published zip artifact.
+                #--------------------------------------------#
+                # Run JMeter test suite against the App Service
+                # ToDo: Update the script below to install jmeter, unzip the jmeter test suite published zip artifact, and run the PerformanceTestSuite.
+                # ToDo: Generate the log file.
+                # - task: CmdLine@2
+                #   inputs:
+                #     script: |
+                #       # ToDo: Write your commands
+                #     workingDirectory: $(Pipeline.Workspace)/<artifact> # ToDo: Use the artifact name from the task above
       #--------------------------------------------#
       # Selenium | Functional UI Tests
       # ToDo:
@@ -181,17 +238,13 @@ stages:
                     script: |
                       sudo python3 ./login.py > selenium-test-suite.log
                       cat selenium-test-suite.log
-                      ls -al
-                      pwd
+                      #ls -al
+                      #pwd
                       #sudo mv selenium-test-suite.log ./selenium-logs
-                      ls -al
-                #| tee -a ./log/selenium/selenium-test-suite.log
-                #      sudo cp /home/azureuser/azagent/_work/1/drop-uitests/selenium-test-suite.log logs/selenium
-                #      ls -al
+                      #ls -al
                 - task: PublishPipelineArtifact@1
                   displayName: Selenium Logs
                   inputs:
-                    #targetPath: "$(System.DefaultWorkingDirectory)/log/selenium-test-suite.log"
                     targetPath: "./selenium-test-suite.log"
                     artifact: drop-selenium-logs
                     publishLocation: "pipeline"
