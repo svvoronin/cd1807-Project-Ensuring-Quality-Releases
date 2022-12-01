@@ -357,8 +357,10 @@ stages:
                       # && sudo chmod 664 /var/logs/selenium
                       sudo python3 -u login.py 2>&1 | sudo tee -a $(Pipeline.Workspace)/drop-uitests/var/logs/selenium/selenium-test-suite.log
                       cd $(System.DefaultWorkingDirectory)
-                      mkdir -p logs/selenium && sudo chmod 664 logs/selenium
-                      sudo cp /var/logs/selenium/selenium-test-suite.log logs/selenium/selenium-test-suite.log
+                      chmod a+w $(System.DefaultWorkingDirectory)
+                      mkdir $(System.DefaultWorkingDirectory)/logs/selenium 
+                      # && sudo chmod 664 logs/selenium
+                      sudo cp ./var/logs/selenium/selenium-test-suite.log .logs/selenium/selenium-test-suite.log
                       sudo chmod 775 logs/selenium/selenium-test-suite.log
                       #sudo python3 ./login.py > selenium-test-suite.log
                       #cat selenium-test-suite.log
