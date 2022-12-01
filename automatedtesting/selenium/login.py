@@ -14,7 +14,7 @@ logging.basicConfig(
 def login(user, password):
 
     logging.info('Starting the browser...')
-    print('Starting the browser...')
+    #print('Starting the browser...')
     # --uncomment when running in Azure DevOps.
     options = ChromeOptions()
     options.add_argument("--headless")
@@ -23,7 +23,7 @@ def login(user, password):
     #driver = webdriver.Chrome('./chromedriver')
     driver = webdriver.Chrome(options=options)
     #driver = webdriver.Chrome()
-    print('Browser started successfully. Navigating to the demo page to login.')
+    #print('Browser started successfully. Navigating to the demo page to login.')
     logging.info(
         'Browser started successfully. Navigating to the demo page to login...')
     driver.get('https://www.saucedemo.com/')

@@ -22,14 +22,14 @@ def add_remove_from_cart(driver):
     for element in elements:
         product_name = element.get_property("name")
         element.click()
-        print('Running: Product ' + product_name.replace('add-to-cart-',
-              '') + ' was added to the cart')
+        # print('Running: Product ' + product_name.replace('add-to-cart-',
+        #      '') + ' was added to the cart')
         logging.info('Product '+product_name.replace('add-to-cart-',
                      '') + ' was added to the cart')
 
     # Removing products to the cart:
 
-    print('Running: Removing products from cart')
+    #print('Running: Removing products from cart')
     driver.find_element(
         "css selector", "a[class='shopping_cart_link']").click()
     logging.info('Removing products from cart')
@@ -39,7 +39,7 @@ def add_remove_from_cart(driver):
     for element in elements:
         product_name = element.get_property("name")
         element.click()
-        print('Running: Product ' + product_name.replace('remove-',
-              '') + ' was removed from the cart')
+        # print('Running: Product ' + product_name.replace('remove-',
+        #      '') + ' was removed from the cart')
         logging.info('Product '+product_name.replace('remove-',
                      '') + ' was removed from the cart')
