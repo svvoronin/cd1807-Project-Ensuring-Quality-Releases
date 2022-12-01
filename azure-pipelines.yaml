@@ -282,7 +282,7 @@ stages:
                                                   -l tests/jmeter/cicd-endurance-results.jtl \
                                                   -e -f -o tests/jmeter \
                                                   -j tests/jmeter/cicd-endurance-test.log
-                cat tests/jmeter/cicd-endurance-test.log
+              #cat tests/jmeter/cicd-endurance-test.log
           - task: ArchiveFiles@2
             displayName: Publish Endurance Test Results
             inputs:
@@ -309,7 +309,7 @@ stages:
                                                   -l tests/jmeter/cicd-stress-results.jtl \
                                                   -e -f -o tests/jmeter \
                                                   -j tests/jmeter/cicd-stress-test.log
-                cat tests/jmeter/cicd-stress-test.log
+              #cat tests/jmeter/cicd-stress-test.log
           - task: ArchiveFiles@2
             displayName: Publish Stress Test Results
             inputs:
