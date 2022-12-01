@@ -199,11 +199,13 @@ stages:
                   inputs:
                     targetType: "inline"
                     script: |
+                      pwd
+                      ls
                       apache-jmeter-5.4.1/bin/./jmeter -n -t automatedtesting/jmeter/EnduranceTest.jmx \
                       -Jresdir=automatedtesting/jmeter/idList.csv \
-                      -l test/jmeter/cicd-enduranceresults.csv \
-                      -e -f -o test/jmeter \
-                      -j test/jmeter/cicd-endurance-test.log
+                      -l tests/jmeter/cicd-enduranceresults.csv \
+                      -e -f -o tests/jmeter \
+                      -j tests/jmeter/cicd-endurance-test.log
 
                     # azureSubscription: fakewebappconnection # ToDo
                     # appName: myFakeWebapp # ToDo
