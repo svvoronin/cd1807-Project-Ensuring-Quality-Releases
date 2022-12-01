@@ -3,8 +3,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 import logging
 from add_remove_from_cart import add_remove_from_cart
-logging.basicConfig(filename='selenium.log', level=logging.DEBUG,
-                    format='%(asctime)s %(levelname)s %(message)s')
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
 
 # Start the browser and login with standard_user
 
