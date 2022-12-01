@@ -306,6 +306,7 @@ stages:
                 pwd
                 ls
                 apache-jmeter-5.4.1/bin/./jmeter -n -t automatedtesting/jmeter/Starter.jmx \
+                                                  -Jresdir=automatedtesting/jmeter/csvidNumber.csv \
                                                   -l tests/jmeter/cicd-stress-results.csv \
                                                   -e -f -o tests/jmeter \
                                                   -j tests/jmeter/cicd-stress-test.log
