@@ -304,9 +304,6 @@ stages:
               script: |
                 pwd
                 ls
-
-              #-Jresdir=automatedtesting/jmeter/idList.csv \
-
                 apache-jmeter-5.4.1/bin/./jmeter -n -t automatedtesting/jmeter/Starter.jmx \
                                                   -l tests/jmeter/cicd-stress-results.csv \
                                                   -e -f -o tests/jmeter \
