@@ -7,7 +7,7 @@ tenant_id       = "45c4bb6b-8f57-4753-b792-4ce0022ee91b"
 # Resource Group/Location
 location            = "Switzerland North"
 resource_group_name = "Azuredevops"
-application_type    = "myApplication"
+application_type    = "SergeysApplication"
 
 # Network
 virtual_network_name = ""
