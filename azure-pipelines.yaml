@@ -193,6 +193,17 @@ stages:
                       tar -xf apache-jmeter-5.4.1.tgz
                       pwd
                       ls -al
+                      mkdir -p tests/jmeter
+                - task: Bash@3
+                  displayName: Run JMeter Endurance Test
+                  inputs:
+                    targetType: "inline"
+                    script: |
+                      apache-jmeter-5.4.1/bin/./jmeter -n -t automatedtesting/jmeter/EnduranceTest.jmx \
+                      -Jresdir=automatedtesting/jmeter/idList.csv \
+                      -l test/jmeter/cicd-enduranceresults.csv \
+                      -e -f -o test/jmeter \
+                      -j test/jmeter/cicd-endurance-test.log
 
                     # azureSubscription: fakewebappconnection # ToDo
                     # appName: myFakeWebapp # ToDo
