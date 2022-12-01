@@ -349,10 +349,12 @@ stages:
                   inputs:
                     targetType: "inline"
                     script: |
-                      chmod a+w $(Pipeline.Workspace)
+
                       cd $(Pipeline.Workspace)/drop-uitests
                       unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d . 
-                      sudo mkdir -p var/logs/selenium && sudo chmod 664 /var/logs/selenium
+                      chmod a+w $(Pipeline.Workspace)/drop-uitests
+                      sudo mkdir $(Pipeline.Workspace)/drop-uitests/var/logs/selenium 
+                      # && sudo chmod 664 /var/logs/selenium
                       sudo python3 -u login.py 2>&1 | sudo tee -a /var/logs/selenium/selenium-test-suite.log
                       cd $(System.DefaultWorkingDirectory)
                       mkdir -p logs/selenium && sudo chmod 664 logs/selenium
