@@ -191,6 +191,78 @@ stages:
                 #     script: |
                 #       # ToDo: Write your commands
                 #     workingDirectory: $(Pipeline.Workspace)/<artifact> # ToDo: Use the artifact name from the task above
+
+  #--------------------------------------------#
+  # Run JMeter test suite against the App Service
+  # ToDo: Update the script below to install jmeter, unzip the jmeter test suite published zip artifact, and run the PerformanceTestSuite.
+  # ToDo: Generate the log file.
+  - stage: Test
+    jobs:
+      - job: JMeterTests
+        steps:
+          - task: Bash@3
+            displayName: Install JMeter
+            inputs:
+              targetType: "inline"
+              script: |
+                sudo apt-get install openjdk-11-jre-headless -y
+                java -version
+                wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.tgz 
+                tar -xf apache-jmeter-5.4.1.tgz
+                pwd
+                ls -al
+                mkdir -p tests/jmeter
+          - task: Bash@3
+            displayName: Run JMeter Endurance Test
+            inputs:
+              targetType: "inline"
+              script: |
+                pwd
+                ls
+                apache-jmeter-5.4.1/bin/./jmeter -n -t automatedtesting/jmeter/EnduranceTest.jmx \
+                                                  -Jresdir=automatedtesting/jmeter/csvidNumber.csv \
+                                                  -l tests/jmeter/cicd-endurance-results.csv \
+                                                  -e -f -o tests/jmeter \
+                                                  -j tests/jmeter/cicd-endurance-test.log
+          - task: ArchiveFiles@2
+            displayName: Publish Endurance Test Results
+            inputs:
+              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/tests/jmeter"
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-endurance-test.zip"
+              verbose: true
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Endurance Test Logs
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-endurance-test.zip"
+              artifactName: "drop-endurance-test-logs"
+
+          - task: Bash@3
+            displayName: Run JMeter Stress Test
+            inputs:
+              targetType: "inline"
+              script: |
+                pwd
+                ls
+                apache-jmeter-5.4.1/bin/./jmeter -n -t automatedtesting/jmeter/Starter.jmx \
+                                                  -Jresdir=automatedtesting/jmeter/csvidNumber.csv \
+                                                  -l tests/jmeter/cicd-stress-results.csv \
+                                                  -e -f -o tests/jmeter \
+                                                  -j tests/jmeter/cicd-stress-test.log
+          - task: ArchiveFiles@2
+            displayName: Publish Stress Test Results
+            inputs:
+              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/tests/jmeter"
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-stress-test.zip"
+              verbose: true
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Stress Test Logs
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-stress-test.zip"
+              artifactName: "drop-stress-test-logs"
       #--------------------------------------------#
       # Selenium | Functional UI Tests
       # ToDo:
@@ -250,77 +322,3 @@ stages:
                     targetPath: "./selenium-test-suite.log"
                     artifact: drop-selenium-logs
                     publishLocation: "pipeline"
-  #--------------------------------------------#
-  # Run JMeter test suite against the App Service
-  # ToDo: Update the script below to install jmeter, unzip the jmeter test suite published zip artifact, and run the PerformanceTestSuite.
-  # ToDo: Generate the log file.
-  - stage: Test
-    jobs:
-      - job: JMeterTests
-        steps:
-          - task: Bash@3
-            displayName: Install JMeter
-            inputs:
-              targetType: "inline"
-              script: |
-                sudo apt-get install openjdk-11-jre-headless -y
-                java -version
-                wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.1.tgz 
-                tar -xf apache-jmeter-5.4.1.tgz
-                pwd
-                ls -al
-                mkdir -p tests/jmeter
-          - task: Bash@3
-            displayName: Run JMeter Endurance Test
-            inputs:
-              targetType: "inline"
-              script: |
-                pwd
-                ls
-                apache-jmeter-5.4.1/bin/./jmeter -n -t automatedtesting/jmeter/EnduranceTest.jmx \
-                                                  -Jresdir=automatedtesting/jmeter/csvidNumber.csv \
-                                                  -l tests/jmeter/cicd-endurance-results.csv \
-                                                  -e -f -o tests/jmeter \
-                                                  -j tests/jmeter/cicd-endurance-test.log
-              #-Jresdir=automatedtesting/jmeter/csvidNumber.csv \
-              #cat tests/jmeter/cicd-endurance-test.log
-          - task: ArchiveFiles@2
-            displayName: Publish Endurance Test Results
-            inputs:
-              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/tests/jmeter"
-              includeRootFolder: false
-              archiveType: "zip"
-              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-endurance-test.zip"
-              verbose: true
-          - task: PublishPipelineArtifact@1
-            displayName: Publish Endurance Test Logs
-            inputs:
-              targetPath: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-endurance-test.zip"
-              artifactName: "drop-endurance-test-logs"
-
-          - task: Bash@3
-            displayName: Run JMeter Stress Test
-            inputs:
-              targetType: "inline"
-              script: |
-                pwd
-                ls
-                apache-jmeter-5.4.1/bin/./jmeter -n -t automatedtesting/jmeter/Starter.jmx \
-                                                  -Jresdir=automatedtesting/jmeter/csvidNumber.csv \
-                                                  -l tests/jmeter/cicd-stress-results.csv \
-                                                  -e -f -o tests/jmeter \
-                                                  -j tests/jmeter/cicd-stress-test.log
-              #cat tests/jmeter/cicd-stress-test.log
-          - task: ArchiveFiles@2
-            displayName: Publish Stress Test Results
-            inputs:
-              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/tests/jmeter"
-              includeRootFolder: false
-              archiveType: "zip"
-              archiveFile: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-stress-test.zip"
-              verbose: true
-          - task: PublishPipelineArtifact@1
-            displayName: Publish Stress Test Logs
-            inputs:
-              targetPath: "$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-stress-test.zip"
-              artifactName: "drop-stress-test-logs"
