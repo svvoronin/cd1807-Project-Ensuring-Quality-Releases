@@ -201,7 +201,7 @@ stages:
                     script: |
                       pwd
                       ls
-                      apache-jmeter-5.4.1/bin/./jmeter -n -t automatedtesting/jmeter/EnduranceTest.jmx \
+                      apache-jmeter-5.4.1/bin/./jmeter -n -t automatedtesting/jmeter/Starter.jmx \
                       -Jresdir=automatedtesting/jmeter/idList.csv \
                       -l tests/jmeter/cicd-enduranceresults.csv \
                       -e -f -o tests/jmeter \
