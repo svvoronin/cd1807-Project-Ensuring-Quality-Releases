@@ -254,7 +254,7 @@ stages:
   # Run JMeter test suite against the App Service
   # ToDo: Update the script below to install jmeter, unzip the jmeter test suite published zip artifact, and run the PerformanceTestSuite.
   # ToDo: Generate the log file.
-  - stage: Build
+  - stage: Test
     jobs:
       - job: JMeterTests
         steps:
