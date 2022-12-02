@@ -26,53 +26,53 @@ stages:
   - stage: Build
     jobs:
       - job: BuildInfrastructure
-        steps:
-          # Install Terraform on the pipeline agent
-          - task: TerraformInstaller@0
-            displayName: "Terrafom installation"
-            inputs:
-              terraformVersion: "1.2.9"
+        # steps:
+        #   # Install Terraform on the pipeline agent
+        #   - task: TerraformInstaller@0
+        #     displayName: "Terrafom installation"
+        #     inputs:
+        #       terraformVersion: "1.2.9"
 
-          # Run Terraform Init on the pipeline agent
-          # ToDo: Replace the resource group name, storage account name, and container name below
-          - task: TerraformTaskV3@3
-            displayName: "Terrafom init"
-            inputs:
-              provider: "azurerm"
-              command: "init"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/terraform/environments/test"
-              backendServiceArm: "$(azureServiceConnectionId)"
-              backendAzureRmResourceGroupName: "Udacity"
-              backendAzureRmStorageAccountName: "tfstate1082121015"
-              backendAzureRmContainerName: "tfstate"
-              backendAzureRmKey: "terraform.tfstate"
+        #   # Run Terraform Init on the pipeline agent
+        #   # ToDo: Replace the resource group name, storage account name, and container name below
+        #   - task: TerraformTaskV3@3
+        #     displayName: "Terrafom init"
+        #     inputs:
+        #       provider: "azurerm"
+        #       command: "init"
+        #       workingDirectory: "$(System.DefaultWorkingDirectory)/terraform/environments/test"
+        #       backendServiceArm: "$(azureServiceConnectionId)"
+        #       backendAzureRmResourceGroupName: "Udacity"
+        #       backendAzureRmStorageAccountName: "tfstate1082121015"
+        #       backendAzureRmContainerName: "tfstate"
+        #       backendAzureRmKey: "terraform.tfstate"
 
-          # Run Terraform Validate
-          - task: TerraformTaskV3@3
-            displayName: Terraform validate
-            inputs:
-              provider: "azurerm"
-              command: "validate"
+        #   # Run Terraform Validate
+        #   - task: TerraformTaskV3@3
+        #     displayName: Terraform validate
+        #     inputs:
+        #       provider: "azurerm"
+        #       command: "validate"
 
-          # Run Terraform Apply
-          # ToDo: Change the workingDirectory path, as applicable to you
-          - task: TerraformTaskV3@3
-            displayName: Terraform apply
-            inputs:
-              provider: "azurerm"
-              command: "apply"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/terraform/environments/test"
-              environmentServiceNameAzureRM: "$(azureServiceConnectionId)"
+        #   # Run Terraform Apply
+        #   # ToDo: Change the workingDirectory path, as applicable to you
+        #   - task: TerraformTaskV3@3
+        #     displayName: Terraform apply
+        #     inputs:
+        #       provider: "azurerm"
+        #       command: "apply"
+        #       workingDirectory: "$(System.DefaultWorkingDirectory)/terraform/environments/test"
+        #       environmentServiceNameAzureRM: "$(azureServiceConnectionId)"
 
           # Destroy the resources in Azure
           # ToDo: Change the workingDirectory path, as applicable to you
-          # - task: TerraformTaskV3@3
-          #   displayName: Terraform destroy
-          #   inputs:
-          #     provider: "azurerm"
-          #     command: "destroy"
-          #     workingDirectory: "$(System.DefaultWorkingDirectory)/terraform/environments/test"
-          #     environmentServiceNameAzureRM: "$(azureServiceConnectionId)"
+          - task: TerraformTaskV3@3
+            displayName: Terraform destroy
+            inputs:
+              provider: "azurerm"
+              command: "destroy"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/terraform/environments/test"
+              environmentServiceNameAzureRM: "$(azureServiceConnectionId)"
           #--------------------------------------------#
           # Postman - Install Newman
           # ToDo: Update the command and verify the working directory
