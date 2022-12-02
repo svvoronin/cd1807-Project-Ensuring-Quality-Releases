@@ -435,7 +435,8 @@ stages:
                       mkdir -p ~/vmlogs
                       unbuffer python3 login.py | tee -a ~/vmlogs/log.txt
 
-
+                      ls -al
+                      pwd
 
                       # cd $(Pipeline.Workspace)/drop-uitests
                       # unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d . 
@@ -464,6 +465,6 @@ stages:
                   inputs:
                     #targetPath: "./selenium-test-suite.log"
                     # targetPath: "$(Pipeline.Workspace)/drop-uitests/var/logs/selenium/selenium-test-suite.log"
-                    targetPath: "~/vmlogs/log.txt"
+                    targetPath: "$(System.DefaultWorkingDirectory)/vmlogs/log.txt"
                     artifact: drop-selenium-logs
                     #publishLocation: "pipeline"
