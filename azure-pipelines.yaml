@@ -436,7 +436,7 @@ stages:
                       cd $(Pipeline.Workspace)/drop-uitests
                       #mkdir -p /var1 && sudo chmod 664 /var1
                       pwd
-                      python3 $(Pipeline.Workspace)/drop-uitests/login.py | tee -a $(Pipeline.Workspace)/drop-uitests/output.log
+                      python3 $(Pipeline.Workspace)/drop-uitests/login.py 2>&1 | sudo tee -a $(Pipeline.Workspace)/drop-uitests/output.log
                       cat $(Pipeline.Workspace)/drop-uitests/output.log
                       #sudo cp $(Pipeline.Workspace)/drop-uitests/output.log /var1
                       ls
