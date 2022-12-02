@@ -385,8 +385,8 @@ stages:
       #--------------------------------------------#
       # Selenium | Functional UI Tests
       # ToDo:
-  - stage: TestSelenium
-    jobs:
+      #  - stage: TestSelenium
+      #    jobs:
       - deployment: VMDeploy
         displayName: Selenium Tests
         environment:
