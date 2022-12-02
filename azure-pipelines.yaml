@@ -435,9 +435,9 @@ stages:
                     script: |
                       cd $(Pipeline.Workspace)/s/automatedtesting/selenium
                       pwd
-                      python3 login.py | tee -a output.log
-                      cat output.log
-                      sudo cp /home/azureuser/myagent/_work/1/s/automatedtesting/selenium/output.log /var1/log
+                      python3 $(Pipeline.Workspace)/drop-uitests/login.py | tee -a $(Pipeline.Workspace)/drop-uitests/output.log
+                      cat $(Pipeline.Workspace)/drop-uitests/output.log
+                      sudo cp $(Pipeline.Workspace)/drop-uitests/output.log /var1/log
                       ls
                       pwd  
 
