@@ -356,7 +356,8 @@ stages:
                       sudo chmod -R 755 $(Pipeline.Workspace)/drop-uitests
                       #sudo mkdir /var/logs/selenium 
                       # && sudo chmod 664 /var/logs/selenium
-                      sudo python3 -u login.py 2>&1 | sudo tee -a ./var/logs/selenium/selenium-test-suite.log
+                      sudo rm $(Pipeline.Workspace)/drop-uitests/var/logs/selenium/selenium-test-suite.log
+                      sudo python3 -u login.py 2>&1 | sudo tee -a $(Pipeline.Workspace)/drop-uitests/var/logs/selenium/selenium-test-suite.log
                       cd $(System.DefaultWorkingDirectory)
                       sudo chmod a+w $(System.DefaultWorkingDirectory)
                       sudo chmod -R 755 $(System.DefaultWorkingDirectory)
