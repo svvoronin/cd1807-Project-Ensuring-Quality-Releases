@@ -66,13 +66,13 @@ stages:
 
           # Destroy the resources in Azure
           # ToDo: Change the workingDirectory path, as applicable to you
-          - task: TerraformTaskV3@3
-            displayName: Terraform destroy
-            inputs:
-              provider: "azurerm"
-              command: "destroy"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/terraform/environments/test"
-              environmentServiceNameAzureRM: "$(azureServiceConnectionId)"
+          # - task: TerraformTaskV3@3
+          #   displayName: Terraform destroy
+          #   inputs:
+          #     provider: "azurerm"
+          #     command: "destroy"
+          #     workingDirectory: "$(System.DefaultWorkingDirectory)/terraform/environments/test"
+          #     environmentServiceNameAzureRM: "$(azureServiceConnectionId)"
           #--------------------------------------------#
           # Postman - Install Newman
           # ToDo: Update the command and verify the working directory
