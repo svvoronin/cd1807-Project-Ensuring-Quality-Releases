@@ -442,9 +442,11 @@ stages:
                       unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d . 
                       # sudo chmod a+w $(Pipeline.Workspace)/drop-uitests
                       # sudo chmod -R 755 $(Pipeline.Workspace)/drop-uitests
-                      sudo mkdir /vars/logs/selenium && sudo chmod 664 /vars/logs/selenium
+                      ls -al
+                      pwd
+                      sudo mkdir ./vars/logs/selenium && sudo chmod 664 ./vars/logs/selenium
                       # sudo rm $(Pipeline.Workspace)/drop-uitests/vars/logs/selenium/selenium-test-suite.log
-                      sudo python3 -u login.py 2>&1 | sudo tee -a /vars/logs/selenium/selenium-test-suite.log
+                      sudo python3 -u login.py 2>&1 | sudo tee -a ./vars/logs/selenium/selenium-test-suite.log
                       # cd $(System.DefaultWorkingDirectory)
                       # sudo chmod a+w $(System.DefaultWorkingDirectory)
                       # sudo chmod -R 755 $(System.DefaultWorkingDirectory)
@@ -464,6 +466,6 @@ stages:
                   inputs:
                     #targetPath: "./selenium-test-suite.log"
                     # targetPath: "$(Pipeline.Workspace)/drop-uitests/var/logs/selenium/selenium-test-suite.log"
-                    targetPath: "/vars/logs/selenium/selenium-test-suite.log"
+                    targetPath: "./vars/logs/selenium/selenium-test-suite.log"
                     artifact: drop-selenium-logs
                     #publishLocation: "pipeline"
