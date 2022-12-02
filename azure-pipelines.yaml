@@ -433,7 +433,7 @@ stages:
                     script: |
                       unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .
                       mkdir -p ~/vmlogs
-                      unbuffer python3 login.py | tee -a ./vmlogs/log.txt
+                      unbuffer python3 login.py | tee -a ~/vmlogs/log.txt
 
 
 
