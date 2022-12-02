@@ -434,7 +434,7 @@ stages:
                     targetType: "inline"
                     script: |
                       cd $(Pipeline.Workspace)/drop-uitests
-                      mkdir -p /var1 && sudo chmod 664 /var1
+                      #mkdir -p /var1 && sudo chmod 664 /var1
                       pwd
                       python3 $(Pipeline.Workspace)/drop-uitests/login.py | tee -a $(Pipeline.Workspace)/drop-uitests/output.log
                       cat $(Pipeline.Workspace)/drop-uitests/output.log
@@ -485,6 +485,6 @@ stages:
                   inputs:
                     #targetPath: "./selenium-test-suite.log"
                     # targetPath: "$(Pipeline.Workspace)/drop-uitests/var/logs/selenium/selenium-test-suite.log"
-                    targetPath: "./var1/output.log"
+                    targetPath: "$(Pipeline.Workspace)/drop-uitests/output.log"
                     artifact: drop-selenium-logs
                     #publishLocation: "pipeline"
