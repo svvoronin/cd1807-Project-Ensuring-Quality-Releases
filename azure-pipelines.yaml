@@ -302,9 +302,91 @@ stages:
               #searchFolder:       # ToDo
               mergeTestResults: true
               testRunTitle: "Return postman tests" # ToDo
+      # #--------------------------------------------#
+      # # Selenium | Functional UI Tests
+      # # ToDo:
+      # - deployment: VMDeploy
+      #   displayName: Selenium Tests
+      #   environment:
+      #     name: udacity3 # ToDo: Change/provide a name
+      #     resourceType: VirtualMachine
+      #     #tags: selenium
+      #   strategy:
+      #     runOnce:
+      #       deploy:
+      #         steps:
+      #           - download: current
+      #             #artifact: drop-ui-tests # ToDo: Change/provide a name
+
+      #           - task: Bash@3
+      #             inputs:
+      #               targetType: "inline"
+      #               script: |
+      #                 # ToDo: Install Selenium, Chromium-browser & Chromedriver, if not already in the custom VM image.
+      #                 #! /bin/bash
+
+      #                 sudo apt-get update
+      #                 sudo apt-get upgrade -y
+      #                 sudo apt-get install python3-pip unzip expect -y
+      #                 sudo apt-get install -y chromium-browser
+      #                 pip3 install selenium
+      #                 sudo rm -rf chromedriver*
+      #                 wget https://chromedriver.storage.googleapis.com/107.0.5304.62/chromedriver_linux64.zip
+      #                 unzip chromedriver*.zip
+      #                 sudo mv chromedriver -f /usr/bin
+
+      #                 #  ToDo: Add chromedriver executable to path
+      #                 export PATH=$PATH:/usr/lib/chromium-browser/
+      #                 # cd $(Pipeline.Workspace)/drop-uitests
+
+      #                 #sudo mkdir -p ./selenium-logs
+      #                 ls
+      #                 # ToDo: Write commands for deploying the UI Test Suite (published zip artifact) to the linux VM and execute the Test Suite
+      #                 # ToDo: Direct the output of the Selenium Test Suite to a log file
+      #           - task: Bash@3
+      #             displayName: Run Selenium UI test
+      #             inputs:
+      #               targetType: "inline"
+      #               script: |
+      #                 unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .
+      #                 mkdir -p ~/vmlogs
+      #                 unbuffer python3 login.py | tee -a ./vmlogs/log.txt
+
+      #                 # cd $(Pipeline.Workspace)/drop-uitests
+      #                 # unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .
+      #                 # sudo chmod a+w $(Pipeline.Workspace)/drop-uitests
+      #                 # sudo chmod -R 755 $(Pipeline.Workspace)/drop-uitests
+      #                 # #sudo mkdir /var/logs/selenium
+      #                 # # && sudo chmod 664 /var/logs/selenium
+      #                 # sudo rm $(Pipeline.Workspace)/drop-uitests/var/logs/selenium/selenium-test-suite.log
+      #                 # sudo python3 -u login.py 2>&1 | sudo tee -a $(Pipeline.Workspace)/drop-uitests/var/logs/selenium/selenium-test-suite.log
+      #                 # cd $(System.DefaultWorkingDirectory)
+      #                 # sudo chmod a+w $(System.DefaultWorkingDirectory)
+      #                 # sudo chmod -R 755 $(System.DefaultWorkingDirectory)
+
+      #                 # #mkdir /logs/selenium
+      #                 # # && sudo chmod 664 logs/selenium
+      #                 # #sudo cp ./var/logs/selenium/selenium-test-suite.log ./logs/selenium/selenium-test-suite.log
+      #                 # #sudo chmod 775 ./logs/selenium/selenium-test-suite.log
+      #                 # #sudo python3 ./login.py > selenium-test-suite.log
+      #                 # #cat selenium-test-suite.log
+      #                 # #ls -al
+      #                 # #pwd
+      #                 # #sudo mv selenium-test-suite.log ./selenium-logs
+      #                 # #ls -al
+      #           - task: PublishPipelineArtifact@1
+      #             displayName: Selenium Logs
+      #             inputs:
+      #               #targetPath: "./selenium-test-suite.log"
+      #               # targetPath: "$(Pipeline.Workspace)/drop-uitests/var/logs/selenium/selenium-test-suite.log"
+      #               targetPath: "./vmlogs/log.txt"
+      #               artifact: drop-selenium-logs
+      #               #publishLocation: "pipeline"
       #--------------------------------------------#
       # Selenium | Functional UI Tests
       # ToDo:
+  - stage: TestSelenium
+    jobs:
       - deployment: VMDeploy
         displayName: Selenium Tests
         environment:
