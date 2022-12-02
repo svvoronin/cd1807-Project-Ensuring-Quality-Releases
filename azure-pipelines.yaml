@@ -26,12 +26,12 @@ stages:
   - stage: Build
     jobs:
       - job: BuildInfrastructure
-        # steps:
-        #   # Install Terraform on the pipeline agent
-        #   - task: TerraformInstaller@0
-        #     displayName: "Terrafom installation"
-        #     inputs:
-        #       terraformVersion: "1.2.9"
+         steps:
+           # Install Terraform on the pipeline agent
+           - task: TerraformInstaller@0
+             displayName: "Terrafom installation"
+             inputs:
+               terraformVersion: "1.2.9"
 
         #   # Run Terraform Init on the pipeline agent
         #   # ToDo: Replace the resource group name, storage account name, and container name below
