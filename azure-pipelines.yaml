@@ -447,13 +447,15 @@ stages:
                       sudo mkdir -p /vars && sudo chmod 664 /vars
                       # sudo rm $(Pipeline.Workspace)/drop-uitests/vars/logs/selenium/selenium-test-suite.log
                       sudo python3 -u login.py 2>&1 | sudo tee -a /vars/selenium-test-suite.log
+                      cd $(System.DefaultWorkingDirectory)
+                      mkdir -p logs/selenium
                       # cd $(System.DefaultWorkingDirectory)
                       # sudo chmod a+w $(System.DefaultWorkingDirectory)
                       # sudo chmod -R 755 $(System.DefaultWorkingDirectory)
 
                       # #mkdir /logs/selenium 
                       # # && sudo chmod 664 logs/selenium
-                      # #sudo cp ./var/logs/selenium/selenium-test-suite.log ./logs/selenium/selenium-test-suite.log
+                      sudo cp /vars/selenium-test-suite.log /logs/selenium/selenium-test-suite.log
                       # #sudo chmod 775 ./logs/selenium/selenium-test-suite.log
                       # #sudo python3 ./login.py > selenium-test-suite.log
                       # #cat selenium-test-suite.log
@@ -461,11 +463,13 @@ stages:
                       # #pwd
                       # #sudo mv selenium-test-suite.log ./selenium-logs
                       # #ls -al
+                      ls -al
+                      pwd
                 - task: PublishPipelineArtifact@1
                   displayName: Selenium Logs
                   inputs:
                     #targetPath: "./selenium-test-suite.log"
                     # targetPath: "$(Pipeline.Workspace)/drop-uitests/var/logs/selenium/selenium-test-suite.log"
-                    targetPath: "/vars/selenium-test-suite.log"
+                    targetPath: "$(System.DefaultWorkingDirectory)/logs/selenium/selenium-test-suite.log"
                     artifact: drop-selenium-logs
                     #publishLocation: "pipeline"
