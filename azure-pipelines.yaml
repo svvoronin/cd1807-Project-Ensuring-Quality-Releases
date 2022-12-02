@@ -76,41 +76,41 @@ stages:
           #--------------------------------------------#
           # Postman - Install Newman
           # ToDo: Update the command and verify the working directory
-          - task: CmdLine@2
-            displayName: Install Newman
-            inputs:
-              script: sudo npm install -g newman
-              workingDirectory: $(System.DefaultWorkingDirectory)
-          - task: CmdLine@2
-            displayName: Install Newman Reporter
-            inputs:
-              script: sudo npm install -g newman-reporter-junitfull
-              workingDirectory: $(System.DefaultWorkingDirectory)
-          # Postman Data Validation Test Suite
-          # ToDo: Verify the working directory and the newman scripts
-          - task: CmdLine@2
-            displayName: Run Data Validation Tests
-            continueOnError: true
-            inputs:
-              script: newman run Data_Validation.postman_collection.json -e Udacity3.postman_environment.json -r cli,junitfull --reporter-junitfull-export TEST-validation.xml # ToDo: Write your commands
-              workingDirectory: "$(System.DefaultWorkingDirectory)/automatedtesting/postman"
-          # Postman Regression Test Suite
-          # ToDo: Update the command and verify the working directory
-          - task: CmdLine@2
-            displayName: Run Regression Tests
-            continueOnError: true
-            inputs:
-              script: newman run Regression.postman_collection.json -e Udacity3.postman_environment.json -r cli,junitfull --reporter-junitfull-export TEST-regression.xml # ToDo: Write your commands
-              workingDirectory: "$(System.DefaultWorkingDirectory)/automatedtesting/postman"
-          # Postman - Publish Results
-          # ToDo: Complete the task as explained here: https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/test/publish-test-results?view=azure-devops&tabs=trx%2Cyaml#yaml-snippet
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: "JUnit"
-              testResultsFiles: "**/TEST-*.xml"
-              #searchFolder:       # ToDo
-              mergeTestResults: true
-              testRunTitle: "Return postman tests" # ToDo
+          # - task: CmdLine@2
+          #   displayName: Install Newman
+          #   inputs:
+          #     script: sudo npm install -g newman
+          #     workingDirectory: $(System.DefaultWorkingDirectory)
+          # - task: CmdLine@2
+          #   displayName: Install Newman Reporter
+          #   inputs:
+          #     script: sudo npm install -g newman-reporter-junitfull
+          #     workingDirectory: $(System.DefaultWorkingDirectory)
+          # # Postman Data Validation Test Suite
+          # # ToDo: Verify the working directory and the newman scripts
+          # - task: CmdLine@2
+          #   displayName: Run Data Validation Tests
+          #   continueOnError: true
+          #   inputs:
+          #     script: newman run Data_Validation.postman_collection.json -e Udacity3.postman_environment.json -r cli,junitfull --reporter-junitfull-export TEST-validation.xml # ToDo: Write your commands
+          #     workingDirectory: "$(System.DefaultWorkingDirectory)/automatedtesting/postman"
+          # # Postman Regression Test Suite
+          # # ToDo: Update the command and verify the working directory
+          # - task: CmdLine@2
+          #   displayName: Run Regression Tests
+          #   continueOnError: true
+          #   inputs:
+          #     script: newman run Regression.postman_collection.json -e Udacity3.postman_environment.json -r cli,junitfull --reporter-junitfull-export TEST-regression.xml # ToDo: Write your commands
+          #     workingDirectory: "$(System.DefaultWorkingDirectory)/automatedtesting/postman"
+          # # Postman - Publish Results
+          # # ToDo: Complete the task as explained here: https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/test/publish-test-results?view=azure-devops&tabs=trx%2Cyaml#yaml-snippet
+          # - task: PublishTestResults@2
+          #   inputs:
+          #     testResultsFormat: "JUnit"
+          #     testResultsFiles: "**/TEST-*.xml"
+          #     #searchFolder:       # ToDo
+          #     mergeTestResults: true
+          #     testRunTitle: "Return postman tests" # ToDo
           #--------------------------------------------#
           # Selenium (UI) Test Suite - Archive the package
           # "ArchiveFiles@2" picks up the web package and archives it.
