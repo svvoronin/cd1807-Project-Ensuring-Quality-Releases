@@ -434,7 +434,7 @@ stages:
                     targetType: "inline"
                     script: |
                       cd $(Pipeline.Workspace)/drop-uitests
-                      mkdir -p /var1
+                      mkdir -p /var1 && sudo chmod 664 /var1
                       pwd
                       python3 $(Pipeline.Workspace)/drop-uitests/login.py | tee -a $(Pipeline.Workspace)/drop-uitests/output.log
                       cat $(Pipeline.Workspace)/drop-uitests/output.log
