@@ -354,7 +354,7 @@ stages:
                       unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d . 
                       sudo chmod a+w $(Pipeline.Workspace)/drop-uitests
                       sudo chmod -R 755 $(Pipeline.Workspace)/drop-uitests
-                      #sudo mkdir ~/var/logs/selenium 
+                      #sudo mkdir /var/logs/selenium 
                       # && sudo chmod 664 /var/logs/selenium
                       sudo python3 -u login.py 2>&1 | sudo tee -a ./var/logs/selenium/selenium-test-suite.log
                       cd $(System.DefaultWorkingDirectory)
