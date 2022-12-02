@@ -398,9 +398,11 @@ stages:
             deploy:
               steps:
                 - download: current
-                  #artifact: drop-ui-tests # ToDo: Change/provide a name
+                  displayName: Download Selenium
+                  artifact: drop-ui-tests # ToDo: Change/provide a name
 
                 - task: Bash@3
+                  displayName: Install Selenium
                   inputs:
                     targetType: "inline"
                     script: |
@@ -419,8 +421,8 @@ stages:
 
                       #  ToDo: Add chromedriver executable to path
                       export PATH=$PATH:/usr/lib/chromium-browser/ 
-                      # cd $(Pipeline.Workspace)/drop-uitests
-
+                      cd $(Pipeline.Workspace)/drop-uitests
+                      unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .
 
                       #sudo mkdir -p ./selenium-logs
                       ls
@@ -431,35 +433,43 @@ stages:
                   inputs:
                     targetType: "inline"
                     script: |
+                      cd $(Pipeline.Workspace)/s/automatedtesting/selenium
+                      pwd
+                      python3 login.py | tee -a output.log
+                      cat output.log
+                      sudo cp /home/azureuser/myagent/_work/1/s/automatedtesting/selenium/output.log /var1/log
+                      ls
+                      pwd  
+
+
                       #unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d .
                       #mkdir -p ~/vmlogs
                       #unbuffer python3 login.py | tee -a ~/vmlogs/log.txt
 
                       #ls -al
                       #pwd
-                      ls
-                      cd $(Pipeline.Workspace)/drop-uitests
-                      find . -type f ! -name '$(Build.BuildId)-uitests.zip' -delete
-                      unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d . 
+                      #ls
+                      #pwd
+                      #cd $(Pipeline.Workspace)/drop-uitests
+                      #unzip -o $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip -d . 
                       # sudo chmod a+w $(Pipeline.Workspace)/drop-uitests
                       # sudo chmod -R 755 $(Pipeline.Workspace)/drop-uitests
-
-                      pwd
-                      sudo mkdir -p /vars && sudo chmod 664 /vars
-                      ls
+                      #pwd
+                      #sudo mkdir -p /vars 
+                      #ls
                       # sudo rm $(Pipeline.Workspace)/drop-uitests/vars/logs/selenium/selenium-test-suite.log
-                      sudo python3 -u login.py 2>&1 | sudo tee -a /vars/selenium-test-suite.log
-                      cd $(System.DefaultWorkingDirectory)
-                      ls
-                      mkdir -p logs
-                      ls
+                      #sudo python3 -u login.py 2>&1 | sudo tee -a /vars/selenium-test-suite.log
+                      #cd $(System.DefaultWorkingDirectory)
+                      #ls
+                      #mkdir -p logs
+                      #ls
                       # cd $(System.DefaultWorkingDirectory)
                       # sudo chmod a+w $(System.DefaultWorkingDirectory)
                       # sudo chmod -R 755 $(System.DefaultWorkingDirectory)
 
                       # #mkdir /logs/selenium 
                       # # && sudo chmod 664 logs/selenium
-                      sudo cp /vars/selenium-test-suite.log /logs/selenium-test-suite.log
+                      #sudo cp /vars/selenium-test-suite.log /logs/selenium-test-suite.log
                       # #sudo chmod 775 ./logs/selenium/selenium-test-suite.log
                       # #sudo python3 ./login.py > selenium-test-suite.log
                       # #cat selenium-test-suite.log
@@ -467,13 +477,13 @@ stages:
                       # #pwd
                       # #sudo mv selenium-test-suite.log ./selenium-logs
                       # #ls -al
-                      ls -al
-                      pwd
+                      #ls -al
+                      #pwd
                 - task: PublishPipelineArtifact@1
                   displayName: Selenium Logs
                   inputs:
                     #targetPath: "./selenium-test-suite.log"
                     # targetPath: "$(Pipeline.Workspace)/drop-uitests/var/logs/selenium/selenium-test-suite.log"
-                    targetPath: "$(System.DefaultWorkingDirectory)/logs/selenium-test-suite.log"
+                    targetPath: "./var1/log/output.log"
                     artifact: drop-selenium-logs
                     #publishLocation: "pipeline"
