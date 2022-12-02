@@ -399,7 +399,7 @@ stages:
               steps:
                 - download: current
                   displayName: Download Selenium
-                  artifact: drop-ui-tests # ToDo: Change/provide a name
+                  artifact: drop-uitests # ToDo: Change/provide a name
 
                 - task: Bash@3
                   displayName: Install Selenium
